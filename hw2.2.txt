@@ -1,0 +1,57 @@
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+	int data;
+	Node* next;
+	Node(int s, Node* m = nullptr)
+	{
+		data = s;
+		next = m;
+	}
+};
+
+void addnode(Node*& A, int val)
+{
+	if (A == nullptr)
+	{
+		A = new Node(val, nullptr);
+	}
+
+	Node* temp = A;
+	while (temp->next != nullptr)
+	{
+		temp = temp->next;
+	}
+	temp->next = new Node(val);
+}
+
+void Find_Min(Node* head)
+{
+	int min = 0;
+	while (head != nullptr)
+	{
+		if (min > head->data)
+			min = head->data;
+		head = head->next;
+	}
+	cout<< min << endl;
+}
+
+int main() {
+
+	Node* head = NULL;
+
+	addnode(head, 4);
+	addnode(head, 5);
+	addnode(head, 10);
+	addnode(head, -1);
+	addnode(head, 0);
+
+	//printlist(head);
+	Find_Min(head);
+
+	system("pause");
+	return 0;
+}

@@ -1,0 +1,207 @@
+#include <iostream>
+using namespace std;
+
+class LinkedList
+{
+protected:
+	struct ListNode
+	{
+		double value;
+		ListNode *next;
+		ListNode(double value1, ListNode* next1 = nullptr)
+		{
+			value = value1;
+			next = next1;
+		}
+	};
+	ListNode *head;
+public:
+	LinkedList()
+	{
+		head = nullptr;
+	}
+	void add(double x);
+	void reverse();
+	void printlist();
+	bool isMember(double x);
+	int search(double x);
+	void insert(double x, int pos);
+	void sort();
+};
+
+//Question #7
+int LinkedList::search(double x)
+{
+	ListNode* nodePtr;
+	int position = -1;
+	nodePtr = head;
+	while (nodePtr)
+	{
+		position++;
+		if (nodePtr->value == x) {
+			cout << "that value is in position "<< position << endl;
+			return position;
+		}
+		else
+			nodePtr = nodePtr->next;
+	}
+	cout << "That value is not in the list." << endl;
+}
+
+//Question #5
+void LinkedList::add(double x)
+{
+	if (head == nullptr)
+		head = new ListNode(x);
+	else
+	{
+		ListNode *nodePtr = head;
+		while (nodePtr->next != nullptr)
+			nodePtr = nodePtr->next;
+		nodePtr->next = new ListNode(x);
+	}
+}
+
+//Question #6
+void LinkedList::reverse()
+{
+	ListNode* current = head;
+	ListNode* previous = nullptr;
+	ListNode* next = nullptr;
+
+	while (current != nullptr)
+	{
+		next = current->next;
+		current->next = previous;
+		previous = current;
+		current = next;
+	}
+	head = previous;
+}
+
+//Question #5
+bool LinkedList::isMember(double x)
+{
+	ListNode *ptr = head;
+	while (ptr != nullptr)
+	{
+		if (ptr->value == x)
+			return true;
+		ptr = ptr->next;
+	}
+	return false;
+}
+
+//Question #9
+void LinkedList::insert(double x, int pos)
+{
+	ListNode *ptr1,*previous =nullptr;
+	int count = 0;
+
+	if (head == NULL)
+		head = new ListNode(x);
+	else
+	{
+		ptr1 = head;
+		while (ptr1 != NULL && count != pos)
+		{
+			previous = ptr1;
+			ptr1 = ptr1->next;
+			count++;
+		}
+		previous->next = new ListNode(x, ptr1);
+	}
+}
+
+//Question #8
+void LinkedList::sort()
+{
+	if (head == nullptr)
+		return;
+	else
+	{
+		ListNode *present, *scan, *past;
+		bool swap;
+		scan = head;
+		past = scan->next;
+		do
+		{
+			swap = false;
+			for (present = past->next; present != NULL; present = present->next)
+			{
+				if (past->value > present->value)
+				{
+					past->next = past->next->next;
+					scan->next = present;
+					present->next = past;
+					swap = true;
+				}
+				scan = past;
+				past = present;
+			}
+		} while (swap);
+	}
+
+}
+
+//Print driver
+void LinkedList::printlist()
+{
+	ListNode* nodePtr = head;
+	while (nodePtr)
+	{
+		cout << nodePtr->value << " ";
+		nodePtr = nodePtr->next;
+	}
+}
+
+int main()
+{
+	LinkedList list;
+	double in;
+	int val = NULL;
+	double x;
+	int pos;
+	
+
+	list.add(1);
+	list.add(2);
+	list.add(3);
+	list.add(4);
+	list.printlist();
+
+	cout << "Enter a number to add to the list: ";
+	cin >> x;
+	list.add(x);
+
+	cout << endl << "Enter a number to see if its a member of the list: ";
+	cin >> in;
+
+	if (list.isMember(in))
+		cout << in << " is a member of the list" << endl;
+	else
+		cout << in << " is not a member of the list." << endl;
+
+	cout << "Enter a number to search the position for: ";
+	cin >> x;
+	list.search(x);
+
+	list.reverse();
+	cout << "the link list reversed is: ";
+	list.printlist();
+	cout << endl;
+
+	list.sort();
+	list.printlist();
+	cout <<"<---------- Sorted Link List."<< endl;
+
+	cout << "Enter a value to add to the list: ";
+	cin >> x;
+	cout << "Enter a position to add the value to: ";
+	cin >> pos;
+	list.insert(x, pos);
+	list.printlist();
+
+	system("pause");
+	return 0;
+}

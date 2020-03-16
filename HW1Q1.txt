@@ -1,0 +1,54 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+	const int num = 20;
+	string strings[num] = { "sheep","misplace","video","review","sequence","deer","spring","archive","mutual","lump","fragment","learn","frank","creed","Mars","divorce","uncle","split","north","version" };
+	
+	int i;
+	int j;
+	string temp;
+
+	for (i = 0; i < num - 1; i++)
+	{
+		for (j = i + 1; j < num; j++)
+		{
+			if (strings[i] > strings[j])
+			{
+				temp = strings[i];
+				strings[i] = strings[j];
+				strings[j] = temp;
+			}
+		}
+	}
+
+		string find;
+		cout << "what word would you like to find?" << endl;
+		cin >> find;
+
+		int low = 0, middle, high = 19;
+		while (low <= high)
+		{
+			middle = (low + high) / 2;
+			if (find < strings[middle])
+				high = middle - 1;
+			else
+			{
+				if (find > strings[middle])
+					low = middle + 1;
+				else
+					low = high + 1;
+			}
+		}
+
+		if (find == strings[middle])
+			cout << find << " was found in the list" << endl;
+		else
+			cout << find << " was not found in the list" << endl;
+
+		system("pause");
+		return 0;
+}

@@ -1,0 +1,103 @@
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+const int SIZE = 5;
+int val;
+
+int BinarySearch(int arr[], int l, int r, int val)
+{
+	if (r >= l) {
+		int middle = l + (r - l) / 2;
+
+		if (arr[middle] == val)
+			return middle;
+
+		if (arr[middle] > val)
+			return BinarySearch(arr, l, middle - 1, val);
+
+		return BinarySearch(arr, middle + 1, r, val);
+	}
+
+	return -1;
+}
+
+void swap2(int& x, int& y) //fuction that moves elements within the array.
+{
+	int temp;
+	temp = x;
+	x = y;
+	y = temp;
+}
+
+void BubbleSort(int arr[]) //BubbleSort function. Also outputs # of passes and iterations.
+{
+	bool flag = false;
+
+	for (int j = SIZE - 1; j > 0 && !flag; j--)
+	{
+		flag = false;
+		for (int i = 0; i < j; i++)
+			if (arr[i] > arr[i + 1])
+			{
+				swap2(arr[i], arr[i + 1]);
+				flag = true;
+			}
+		cout << "Using Bubble Sort, sorting took " << j << " passes and " << (j - 1) << " iterations." << endl;
+	}
+}
+
+int LinearSearch(int arr[],int n, int val) //function that performs a linear search on the array.
+{
+	int i;
+	for (i = 0; i < n; i++)
+		if (arr[i] == val)
+			return i;
+	return -1;
+}
+
+void print(int arr[]) //prints the array. 
+{
+	for (int i = 0; i < SIZE; i++)
+	{
+		cout << arr[i] << " ";
+	}
+	cout << endl;
+}
+
+int main()
+{
+	srand(time(NULL)); //setting random number
+	int arr[SIZE];
+	for (int i = 0; i < SIZE; i++)
+	{
+		arr[i] = (rand() % (55-5) + 1); //Populating the array
+	}
+	cout << "The array contains:" << endl; //Printing out the array generated.
+	print(arr);
+
+	BubbleSort(arr); //Sorting the array using Bubble Sort. This will also output the number of passes and iterations.
+	cout << "After using Bubble Sort, the array is: " << endl;
+	print(arr); //Prints the sorted array
+
+	cout << "enter a value to search for: "; //Inputting value to search for in the array.
+	cin >> val;
+
+	int n = sizeof(arr) / sizeof(arr[0]); //setting n for LinearSearch
+	int index = LinearSearch(arr, n, val);
+	if (index == -1)
+		cout << "By using Linear Search, it was determined that " << val << " is not in the array." << endl; //if LinearSearch returns -1, the number input in line 71 is not in the array.
+	else
+		cout << "By using Linear Search, it was determined that " << val << " is in the array." << endl; //if LinearSearch returns any number other than -1, we know the number is in the array.
+
+	int q = sizeof(arr) / sizeof(arr[0]);
+	int result = BinarySearch(arr, 0, q - 1, val);
+	if (index == -1)
+		cout << "By using Binary Search, it was determined that " << val << " is not in the array." << endl;
+	else
+		cout << "By using Binary Search, it was determined that " << val << " is in the array." << endl; 
+
+	system("pause");
+	return 0;
+}

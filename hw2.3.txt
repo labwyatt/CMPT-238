@@ -1,0 +1,73 @@
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+	int  data;
+	Node* next;
+	Node(int s, Node* m = nullptr)
+	{
+		data = s;
+		next = m;
+	}
+};
+
+void reverse(Node* &head) 
+{
+	Node* current = head;
+	Node* previous = nullptr;
+	Node* next = nullptr;
+
+	while (current != nullptr)
+	{
+		next = current->next;
+		current->next = previous;
+		previous = current;
+		current = next;
+	}
+	head = previous;
+}
+
+void addnode(Node*& q, int val)
+{
+	if (q == nullptr)
+	{
+		q = new Node(val, nullptr);
+	}
+
+	Node* temp = q;
+	while (temp->next != nullptr)
+	{
+		temp = temp->next;
+	}
+	temp->next = new Node(val);
+}
+
+void printlist(Node* head)
+{
+	if (head != nullptr)
+	{
+		cout <<head->data<< " ";
+		printlist(head->next);
+	}
+}
+int main() {
+	Node* head = NULL;
+	int val = NULL;
+	addnode(head, 2);
+	addnode(head, 4);
+	addnode(head, 6);
+	addnode(head, 7);
+	addnode(head, 8);
+	addnode(head, 11);
+
+	cout <<"The original link-list: ";
+	printlist(head);
+
+	reverse(head);
+	cout << endl << "the reversed link-list: ";
+	printlist(head);
+
+	system("pause");
+	return 0;
+}
